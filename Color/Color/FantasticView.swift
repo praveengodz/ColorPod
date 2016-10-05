@@ -24,14 +24,20 @@ class FantasticView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let scheduledColorChanged = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { (timer) in  //1
-            UIView.animate(withDuration: 2.0) {  //2
-                self.layer.backgroundColor = self.colors[self.colorCounter % 6].cgColor  //3
-                self.colorCounter+=1  //4
+        if #available(iOS 10.0, *) {
+            let scheduledColorChanged = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { (timer) in  //1
+                UIView.animate(withDuration: 2.0) {  //2
+                    self.layer.backgroundColor = self.colors[self.colorCounter % 6].cgColor  //3
+                    self.colorCounter+=1  //4
+                }
             }
+            scheduledColorChanged.fire()  //5
+        } else {
+            // Fallback on earlier versions
+            print("Available only for iOS 10 and above")
         }
         
-        scheduledColorChanged.fire()  //5
+        
         
         // The Main Stuff
     }
